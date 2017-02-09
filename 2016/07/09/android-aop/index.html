@@ -1,0 +1,107 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> Android AOP实践 · 陈龙飞</title><meta name="description" content="Android AOP实践 - Troy"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://www.chenlongfei.cn/atom.xml" title="陈龙飞"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="/about" target="_self" class="nav-list-link">ABOUT</a></li><li class="nav-list-item"><a href="/friend" target="_self" class="nav-list-link">FRIENDS</a></li><li class="nav-list-item"><a href="https://github.com/betroy" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">Android AOP实践</h1><div class="post-info">Jul 9, 2016</div><div class="post-content"><h4 id="AOP简介"><a href="#AOP简介" class="headerlink" title="AOP简介"></a>AOP简介</h4><p><strong>面向切面编程（AOP，Aspect-oriented programming）</strong> 通过预编译方式和运行期动态代理实现程序功能的统一维护的一种技术。AOP是OOP的延续，是软件开发中的一个热点，也是Spring框架中的一个重要内容，是函数式编程的一种衍生范型。利用AOP可以对业务逻辑的各个部分进行隔离，从而使得业务逻辑各部分之间的耦合度降低，提高程序的可重用性，同时提高了开发的效率。<br><a id="more"></a></p>
+<h4 id="AOP应用场景"><a href="#AOP应用场景" class="headerlink" title="AOP应用场景"></a>AOP应用场景</h4><p>假设有这样一个需求，需要统计所有的点击事件并进行上报。一般情况下会在所有的点击事件中调用事件上报的方法，这使得代码之间的耦合度非常之高，将来修改事件上报的方法，所有调用该方法的地方都得修改。<br>AOP的目标就是解决这些问题，把这些功能集中起来进行管理。比如上面所说的点击事件上报将使用AOP统一管理。</p>
+<h4 id="普通例子（非AOP）"><a href="#普通例子（非AOP）" class="headerlink" title="普通例子（非AOP）"></a>普通例子（非AOP）</h4><p>每个页面点击事件中都需要调用事件上报的方法。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AOPActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> <span class="keyword">implements</span> <span class="title">View</span>.<span class="title">OnClickListener</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> Button firstBtn;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(@Nullable Bundle savedInstanceState)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">        setContentView(R.layout.activity_aop);</div><div class="line"></div><div class="line">        firstBtn = (Button) findViewById(R.id.btn_first);</div><div class="line">        firstBtn.setOnClickListener(<span class="keyword">this</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</div><div class="line">        <span class="keyword">switch</span> (v.getId()) &#123;</div><div class="line">            <span class="keyword">case</span> R.id.btn_first:</div><div class="line">                <span class="comment">//上报点击事件</span></div><div class="line">                EventManage.sendClickEvent();</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h4 id="AspectJ"><a href="#AspectJ" class="headerlink" title="AspectJ"></a>AspectJ</h4><p>AspectJ是一套支持AOP的语言，完全兼容Java。<br>使用AspectJ的两种方法:</p>
+<ul>
+<li>完全使用AspectJ的语言</li>
+<li>使用AspectJ注解</li>
+</ul>
+<h4 id="AspectJ语法"><a href="#AspectJ语法" class="headerlink" title="AspectJ语法"></a>AspectJ语法</h4><p><strong>Join Points</strong> 程序运行时的一些执行点。比如函数调用、函数执行等等。<br><strong>Pointcuts</strong> 一个程序会有很多个JPoints，不是每一个JPonints都是我们所需要的，而选择感兴趣的JPonints就是Pointcuts提供的功能。</p>
+<p>Join Points类型与之对应的Pointcuts:   </p>
+<table>
+<thead>
+<tr>
+<th>Join point category</th>
+<th>Pointcut syntax</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Method execution(函数执行)</td>
+<td>execution(MethodSignature)</td>
+</tr>
+<tr>
+<td>Method call(函数调用)</td>
+<td>call(MethodSignature)</td>
+</tr>
+<tr>
+<td>Constructor execution(构造函数执行)</td>
+<td>execution(ConstructorSignature)</td>
+</tr>
+<tr>
+<td>Constructor call(构造函数调用)</td>
+<td>call(ConstructorSignature)</td>
+</tr>
+<tr>
+<td>Class initialization(类初始化)</td>
+<td>staticinitialization(TypeSignature)</td>
+</tr>
+<tr>
+<td>Filed read access(获取变量)</td>
+<td>get(FiledSignature)</td>
+</tr>
+<tr>
+<td>Filed write access(设置变量)</td>
+<td>set(FiledSignature)</td>
+</tr>
+<tr>
+<td>Exception handler execution(异常处理)</td>
+<td>handler(TypeSignature)</td>
+</tr>
+<tr>
+<td>Object initialization(Object 在构造函数中做得工作)</td>
+<td>initialization(ConstructorSignature)</td>
+</tr>
+<tr>
+<td>Object pre-initialization</td>
+<td>preinitialization(ConstructorSignature)</td>
+</tr>
+<tr>
+<td>Advice execution</td>
+<td>adviceexecution()</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Advice</strong> 选择Join Points后要做的事情:</p>
+<table>
+<thead>
+<tr>
+<th>关键词</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>before()</td>
+<td>Join Points执行之前需要做的事情</td>
+</tr>
+<tr>
+<td>after()</td>
+<td>Join Points执行之后需要做的事情</td>
+</tr>
+<tr>
+<td>after():returning(返回值类型)   after():throwing(异常类型)</td>
+<td>假设JPoint是一个函数调用的话，那么函数调用执行完有两种方式退出，一个是正常的return，另外一个是抛异常。注意，after()默认包括returning和throwing两种情况</td>
+</tr>
+<tr>
+<td>返回值类型 around()</td>
+<td>around替代原Join Points，如果要执行原JPoint的话，需要调用proceed</td>
+</tr>
+</tbody>
+</table>
+<h4 id="Android-AspectJ-Usage"><a href="#Android-AspectJ-Usage" class="headerlink" title="Android AspectJ Usage"></a>Android AspectJ Usage</h4><p>使用AspectJ Gradle插件<a href="https://github.com/HujiangTechnology/gradle_plugin_android_aspectjx" target="_blank" rel="external">gradle-android-plugin-aspectjx</a></p>
+<h4 id="AOP实践（使用AspectJ注解）"><a href="#AOP实践（使用AspectJ注解）" class="headerlink" title="AOP实践（使用AspectJ注解）"></a>AOP实践（使用AspectJ注解）</h4><p>选择切入的目标函数:<br>访问权限（public/private/protect，以及static/final）属于可选项。如果不设置它们，则默认都会选择。<br>返回值类型就是普通的函数的返回值类型。如果不限定类型的话，就用<code>*</code>通配符表示。<br>包名.函数名用于查找匹配的函数。可以使用通配符，包括<code>*</code>和<code>..</code>以及<code>+</code>号。其中<code>*</code>号用于匹配除<code>.</code>号之外的任意字符，而<code>..</code>则表示任意子package，<code>+</code>号表示子类。  </p>
+<p><code>@Pointcut(&quot;execution(* *.onClick(android.view.View)) &amp;&amp; args(view)&quot;)</code><br>表示Join Points类型为<strong>execution</strong>，目标函数为任意包下返回值为任意类型的名为<strong>onClick</strong>的函数，其中参数类型为<strong>View</strong></p>
+<p><code>@Around(&quot;onClickPointcut(view)&quot;)</code><br>替换原Join Points<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Aspect</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UBCAspectJ</span> </span>&#123;</div><div class="line">    <span class="meta">@Pointcut</span>(<span class="string">"execution(* *.onClick(android.view.View)) &amp;&amp; args(view)"</span>)</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClickPointcut</span><span class="params">(View view)</span> </span>&#123;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Pointcut</span>(<span class="string">"execution(* *.onItemClick(android.widget.AdapterView&lt;?&gt;,android.view.View,int,long)) &amp;&amp; args(adapterView,view,position,id)"</span>)</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onItemClickPointcut</span><span class="params">(AdapterView&lt;?&gt; adapterView, View view, <span class="keyword">int</span> position, <span class="keyword">long</span> id)</span> </span>&#123;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Around</span>(<span class="string">"onClickPointcut(view)"</span>)</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(ProceedingJoinPoint joinPoint, View view)</span> <span class="keyword">throws</span> Throwable </span>&#123;</div><div class="line">        <span class="comment">//统一处理onClick事件</span></div><div class="line">        joinPoint.proceed(joinPoint.getArgs());</div><div class="line">        handlerClickEvent(joinPoint, <span class="keyword">null</span>, view, <span class="number">0</span>);</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Around</span>(<span class="string">"onItemClickPointcut(adapterView,view,position,id)"</span>)</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onItemClick</span><span class="params">(ProceedingJoinPoint joinPoint, AdapterView&lt;?&gt; adapterView, View view, <span class="keyword">int</span> position, <span class="keyword">long</span> id)</span> <span class="keyword">throws</span> Throwable </span>&#123;</div><div class="line">        <span class="comment">//统一处理onItemClick事件</span></div><div class="line">        handlerClickEvent(joinPoint, adapterView, view, position);</div><div class="line">        joinPoint.proceed(joinPoint.getArgs());</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handlerClickEvent</span><span class="params">(ProceedingJoinPoint joinPoint, AdapterView&lt;?&gt; adapterView, View view, <span class="keyword">int</span> position)</span> </span>&#123;</div><div class="line">        <span class="comment">//上报点击事件</span></div><div class="line">        EventManage.sendClickEvent();</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>使用AOP我们就不用给所有点击事件添加上报点击事件的方法，而是统一使用AOP管理。</p>
+</div></article></div></main><footer><div class="paginator"><a href="/2016/07/24/jenkins-android/" class="prev">PREV</a><a href="/2016/07/04/react-native-dev-env/" class="next">NEXT</a></div><div data-thread-key="2016/07/09/android-aop/" data-title="Android AOP实践" data-url="http://www.chenlongfei.cn/2016/07/09/android-aop/" data-author-key="1" class="ds-thread"></div><script>var duoshuoQuery = {short_name:"chenlongfei"};
+(function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+})();
+
+</script><div class="copyright"><p>© 2015 - 2017 <a href="http://www.chenlongfei.cn">Troy</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-66384101-1",'auto');ga('send','pageview');</script></body></html>

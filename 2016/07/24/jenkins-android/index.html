@@ -1,0 +1,57 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> Jenkins持续集成之Android篇 · 陈龙飞</title><meta name="description" content="Jenkins持续集成之Android篇 - Troy"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://www.chenlongfei.cn/atom.xml" title="陈龙飞"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="/about" target="_self" class="nav-list-link">ABOUT</a></li><li class="nav-list-item"><a href="/friend" target="_self" class="nav-list-link">FRIENDS</a></li><li class="nav-list-item"><a href="https://github.com/betroy" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">Jenkins持续集成之Android篇</h1><div class="post-info">Jul 24, 2016</div><div class="post-content"><h4 id="Jenkins是什么"><a href="#Jenkins是什么" class="headerlink" title="Jenkins是什么"></a>Jenkins是什么</h4><p>Jenkins是一个开源的持续集成工具，提供软件开发的持续集成服务。</p>
+<h4 id="Jenkins使用场景"><a href="#Jenkins使用场景" class="headerlink" title="Jenkins使用场景"></a>Jenkins使用场景</h4><p>在移动端开发过程中，临近发版时，需要频繁进行集成操作，打包app提交给测试，测试反馈bug，开发修复bug后再重新打包给测试，如此反复操作消耗了大量时间。<br>而持续集成正是针对这类问题的最佳解决方案，使用持续集成可以自动化实现编译、发布、测试。</p>
+<a id="more"></a>
+<h4 id="Jenkins怎么用"><a href="#Jenkins怎么用" class="headerlink" title="Jenkins怎么用"></a>Jenkins怎么用</h4><p> <a href="https://jenkins.io" target="_blank" rel="external">Jenkins</a>提供了各种安装程序，这里以Docker为例。  </p>
+<ul>
+<li><p>下载Docker GUI工具<a href="https://kitematic.com" target="_blank" rel="external">kitematic</a></p>
+</li>
+<li><p>搜索Jenkins获取镜像，并选择create创建容器</p>
+<p><img src="http://7xl2ut.com1.z0.glb.clouddn.com/af9eee84c108c5e87f1bc27088dd8ae4.png" alt=""></p>
+</li>
+<li><p>启动容器可以看到相关启动日志，这里需要复制Jenkins生成的安装时所需随机密码</p>
+<p><img src="http://7xl2ut.com1.z0.glb.clouddn.com/images/2016-07-24_20:34:20.jpg" alt="2016-07-24_20:34:20.jpg"></p>
+</li>
+<li><p>查看服务器地址</p>
+<p><img src="http://7xl2ut.com1.z0.glb.clouddn.com/images/2016-07-24_20:28:56.jpg" alt=""></p>
+</li>
+<li><p>浏览器中输入服务器地址，初次安装需要生成的随机密码</p>
+<p><img src="http://7xl2ut.com1.z0.glb.clouddn.com/images/2016-07-24_20:31:10.jpg" alt=""></p>
+</li>
+<li><p>选择安装方式</p>
+<p><img src="http://7xl2ut.com1.z0.glb.clouddn.com/images/2016-07-24_20:40:35.jpg" alt=""></p>
+</li>
+<li><p>创建用户并登录</p>
+</li>
+<li><p>首页选择新建，创建一个项目</p>
+<p><img src="http://7xl2ut.com1.z0.glb.clouddn.com/images/2016-07-24_21:30:41.jpg" alt=""></p>
+</li>
+<li><p>源码管理，这里我们以git方式为例</p>
+<p><img src="http://7xl2ut.com1.z0.glb.clouddn.com/images/2016-07-24_21:24:51.jpg" alt=""></p>
+</li>
+<li><p>设置每10分钟检查一次代码</p>
+<p><img src="http://7xl2ut.com1.z0.glb.clouddn.com/images/2016-07-24_21:27:23.jpg" alt=""></p>
+</li>
+<li><p>选取构建方式</p>
+<p><img src="http://7xl2ut.com1.z0.glb.clouddn.com/images/2016-07-24_21:28:02.jpg" alt=""></p>
+</li>
+<li><p>执行assembleRelease任务</p>
+<p><img src="http://7xl2ut.com1.z0.glb.clouddn.com/images/2016-07-24_22:13:38.jpg" alt=""></p>
+</li>
+<li><p>这里可以执行一些命令，比如自动上传到内测托管平台，如”蒲公英” “FIR”</p>
+<p><img src="http://7xl2ut.com1.z0.glb.clouddn.com/images/2016-07-24_21:28:46.jpg" alt=""></p>
+</li>
+<li><p>保存之后，执行自动化构建，可以看到相关日志</p>
+<p><img src="http://7xl2ut.com1.z0.glb.clouddn.com/images/2016-07-24_22:04:47.jpg" alt=""></p>
+</li>
+</ul>
+</div></article></div></main><footer><div class="paginator"><a href="/2016/07/29/liqi/" class="prev">PREV</a><a href="/2016/07/09/android-aop/" class="next">NEXT</a></div><div data-thread-key="2016/07/24/jenkins-android/" data-title="Jenkins持续集成之Android篇" data-url="http://www.chenlongfei.cn/2016/07/24/jenkins-android/" data-author-key="1" class="ds-thread"></div><script>var duoshuoQuery = {short_name:"chenlongfei"};
+(function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+})();
+
+</script><div class="copyright"><p>© 2015 - 2017 <a href="http://www.chenlongfei.cn">Troy</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-66384101-1",'auto');ga('send','pageview');</script></body></html>

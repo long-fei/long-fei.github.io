@@ -1,0 +1,38 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 移动设备抓包利器之Tcpdump · 陈龙飞</title><meta name="description" content="移动设备抓包利器之Tcpdump - Troy"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://www.chenlongfei.cn/atom.xml" title="陈龙飞"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="/about" target="_self" class="nav-list-link">ABOUT</a></li><li class="nav-list-item"><a href="/friend" target="_self" class="nav-list-link">FRIENDS</a></li><li class="nav-list-item"><a href="https://github.com/betroy" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">移动设备抓包利器之Tcpdump</h1><div class="post-info">Aug 15, 2015</div><div class="post-content"><p>本文主要讲解如何对iOS和Android进行抓包。<br><a id="more"></a></p>
+<hr>
+<p>工具:<br>        1.<a href="http://download.csdn.net/detail/clf421575839/8680443" target="_blank" rel="external">tcpdump</a><br>        2.<a href="https://www.wireshark.org/download.html" target="_blank" rel="external">Wireshark</a></p>
+<hr>
+<h3 id="Android平台"><a href="#Android平台" class="headerlink" title="Android平台:"></a>Android平台:</h3><p><strong>设备必须已经root</strong><br>1.使用adb 执行以下命令,获取su权限</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">adb shell</div><div class="line">su</div></pre></td></tr></table></figure>
+<p>2.修改 /data/local目录权限</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">chmod 777 data/local</div></pre></td></tr></table></figure>
+<p>3.将tcpdump文件push到/data/local目录下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb push /Users/chenlongfei/Downloads/tcpdump /data/local</div></pre></td></tr></table></figure>
+<p>4.修改tcpdump文件权限</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">chmod 6755 /data/local/tcpdump</div></pre></td></tr></table></figure>
+<p>5.执行抓包监听命令,并将pcap文件保存到sdcard目录中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/data/local/tcpdump -p -s 0 -w /sdcard/test.pcap</div></pre></td></tr></table></figure>
+<p>6.使用control+z 停止抓包<br>7.从设备中获取抓包文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">adb pull /sdcard/test.pcap /Users/chenlongfei/Downloads</div></pre></td></tr></table></figure>
+<p><img src="http://7xl2ut.com1.z0.glb.clouddn.com/b5decc10ed099c63f919260cd1fac1cb.png" alt=""></p>
+<p>至此抓包就结束了，PC上使用Wireshark对文件进行分析。</p>
+<h3 id="iOS平台"><a href="#iOS平台" class="headerlink" title="iOS平台:"></a>iOS平台:</h3><p><strong>设备已经越狱</strong><br>1.在Cydia中安装OpenSSH、tcpdump<br>2.查看设备IP<br>3.连接到设备</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ssh root@192.168.1.103</div><div class="line">password:alpine(默认密码)</div></pre></td></tr></table></figure>
+<p>4.开始抓包       </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">tcpdump -p -s 0 -w /test.pcap</div></pre></td></tr></table></figure>
+<p>5.使用pp助手导出pcap文件即可</p>
+<p><img src="http://7xl2ut.com1.z0.glb.clouddn.com/737b885c459913febca047a66ad39bfe.png" alt=""></p>
+<p><img src="http://7xl2ut.com1.z0.glb.clouddn.com/e425db4105541e14a9c86252ac0d2028.png" alt=""></p>
+<hr>
+<p>教程结束</p>
+</div></article></div></main><footer><div class="paginator"><a href="/2016/07/04/react-native-dev-env/" class="prev">PREV</a><a href="/2015/08/07/preference-activity-toolbar-usage/" class="next">NEXT</a></div><div data-thread-key="2015/08/15/wireshark-ios-android/" data-title="移动设备抓包利器之Tcpdump" data-url="http://www.chenlongfei.cn/2015/08/15/wireshark-ios-android/" data-author-key="1" class="ds-thread"></div><script>var duoshuoQuery = {short_name:"chenlongfei"};
+(function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+})();
+
+</script><div class="copyright"><p>© 2015 - 2017 <a href="http://www.chenlongfei.cn">Troy</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-66384101-1",'auto');ga('send','pageview');</script></body></html>
