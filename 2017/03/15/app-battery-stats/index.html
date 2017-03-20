@@ -15,16 +15,16 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#Android6.0-</span></div><div class="line">adb bugreport &gt; bugreport.txt</div></pre></td></tr></table></figure>
 <p>上传数据并分析，需要注意的是Battery Historian需要科学上网才能提交分析。<br><img src="http://7xl2ut.com1.z0.glb.clouddn.com/images/2017-03-15-083622.jpg" alt=""></p>
 <p>横坐标代表时间范围，纵坐标参数说明请参考<a href="http://blog.csdn.net/itfootball/article/details/44084159" target="_blank" rel="external">Android性能专项测试之battery-historian</a>。<br>由下图可知，CPU一直处于运行状态，消耗了大量电量。移动数据请求频繁，无线电波持续工作，导致电量一直被消耗。<br><img src="http://7xl2ut.com1.z0.glb.clouddn.com/images/2017-03-15-091139.jpg" alt=""><br>在App Selection中选择要分析的应用，在App Stats中<strong>Device estimated power use</strong>可得知APP耗电量为<strong>8.14%</strong>。<br><img src="http://7xl2ut.com1.z0.glb.clouddn.com/images/2017-03-15-091304.jpg" alt=""></p>
-<h3 id="优化过程"><a href="#优化过程" class="headerlink" title="优化过程"></a>优化过程</h3><p>经过排查，最终定位在数据上报，及push心跳上报过于频繁，并做以下优化。</p>
+<h3 id="优化过程"><a href="#优化过程" class="headerlink" title="优化过程"></a>优化过程</h3><p>经过排查，最终定位在日志上报及注册设备ID的请求过于频繁，并做以下优化。</p>
 <ul>
-<li>降低网络请求频率，集中处理网络请求，通过Job Scheduler来实现调度。</li>
+<li>降低网络请求频率，集中处理网络请求，可通过Job Scheduler来实现调度。</li>
 <li>检查WakeLock唤醒锁，避免不必要唤醒操作。</li>
 <li>将数据上报等非重要性工作，在WIFI下或接入电源时执行。</li>
 </ul>
 <h3 id="优化成果"><a href="#优化成果" class="headerlink" title="优化成果"></a>优化成果</h3><p>在同一时间范围，对比可得可见CPU运行不再频繁，App耗电量下降至<strong>2.62%</strong>。<br><img src="http://7xl2ut.com1.z0.glb.clouddn.com/images/2017-03-15-092044.jpg" alt=""></p>
 <p><img src="http://7xl2ut.com1.z0.glb.clouddn.com/images/2017-03-15-092140.jpg" alt=""></p>
 <h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><p><a href="http://hukai.me/android-performance-battery/" target="_blank" rel="external">Android性能优化之电量篇</a><br><a href="https://hujiaweibujidao.github.io/blog/2017/01/24/how-to-know-your-applications-battery-stats/" target="_blank" rel="external">How to know your application’s battery stats</a></p>
-</div></article></div></main><footer><div class="paginator"><a href="/2017/01/01/bye-2016/" class="next">NEXT</a></div><div data-thread-key="2017/03/15/app-battery-stats/" data-title="App耗电量分析与优化" data-url="http://www.chenlongfei.cn/2017/03/15/app-battery-stats/" data-author-key="1" class="ds-thread"></div><script>var duoshuoQuery = {short_name:"chenlongfei"};
+</div></article></div></main><footer><div class="paginator"><a href="/2017/01/01/bye-2016/" class="next">下一篇</a></div><div data-thread-key="2017/03/15/app-battery-stats/" data-title="App耗电量分析与优化" data-url="http://www.chenlongfei.cn/2017/03/15/app-battery-stats/" data-author-key="1" class="ds-thread"></div><script>var duoshuoQuery = {short_name:"chenlongfei"};
 (function() {
     var ds = document.createElement('script');
     ds.type = 'text/javascript';ds.async = true;
