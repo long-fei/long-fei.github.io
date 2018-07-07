@@ -1,0 +1,60 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 加油宝APP组件化改造流程 · 陈龙飞</title><meta name="description" content="加油宝APP组件化改造流程 - Troy"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://www.chenlongfei.cn/atom.xml" title="陈龙飞"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="/about" target="_self" class="nav-list-link">ABOUT</a></li><li class="nav-list-item"><a href="/friend" target="_self" class="nav-list-link">FRIENDS</a></li><li class="nav-list-item"><a href="https://github.com/betroy" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">加油宝APP组件化改造流程</h1><div class="post-info">Jul 5, 2018</div><div class="post-content"><h2 id="加油宝APP组件化改造流程"><a href="#加油宝APP组件化改造流程" class="headerlink" title="加油宝APP组件化改造流程"></a>加油宝APP组件化改造流程</h2><p><strong>什么是组件化：</strong><br>将APP按业务及功能拆分为多个模块，每个模块为一个单独的组件(Module)，各组件之间相互隔离并行开发，组件可以单独编译独立运行。</p>
+<p><strong>加油宝组件化改造背景：</strong></p>
+<ol>
+<li>APP不断跌代，业务逐渐壮大，业务之间耦合严重。</li>
+<li>不合理的设计，项目维护与迭代变得困难。</li>
+<li>单Module项目，编译速度下降，影响开发与调试效率。</li>
+</ol>
+<p><strong>加油宝组件化改造目标：</strong></p>
+<ol>
+<li>代码结构清晰化</li>
+<li>业务解耦合，业务组件可以单独调试</li>
+<li>易于维护与测试</li>
+</ol>
+<h3 id="组件化基本结构"><a href="#组件化基本结构" class="headerlink" title="组件化基本结构"></a>组件化基本结构</h3><ul>
+<li>上层Main App相当于运行的容器，集成所有业务组件形成一个完整功能的APP。</li>
+<li>中间层Module，是功能完整的独立业务组件，组件之间不可以相互依赖。</li>
+<li>底层基础库Library，提供基础功能，被业务组件依赖。</li>
+</ul>
+<p><img src="http://7xl2ut.com1.z0.glb.clouddn.com/18-7-7/89085392.jpg" alt=""></p>
+<h3 id="组件化改造大流程"><a href="#组件化改造大流程" class="headerlink" title="组件化改造大流程"></a>组件化改造大流程</h3><p>本次改造总共分为五个阶段，由简入繁，采用渐近式改造项目。</p>
+<p><img src="http://7xl2ut.com1.z0.glb.clouddn.com/18-7-7/948670.jpg" alt=""></p>
+<h4 id="基础资源"><a href="#基础资源" class="headerlink" title="基础资源"></a>基础资源</h4><p>将基础通用资源拆分出来，独立为一个BaseRes Module。方便被业务组件引用。</p>
+<p><img src="http://7xl2ut.com1.z0.glb.clouddn.com/18-7-7/27560011.jpg" alt=""></p>
+<h4 id="基础库"><a href="#基础库" class="headerlink" title="基础库"></a>基础库</h4><p>将基础功能从项目中拆分出来，独立为一个BaseLib Module。方便被业务组件依赖。</p>
+<p><img src="http://7xl2ut.com1.z0.glb.clouddn.com/18-7-7/77665250.jpg" alt=""></p>
+<h4 id="组件拆分"><a href="#组件拆分" class="headerlink" title="组件拆分"></a>组件拆分</h4><ul>
+<li>按业务功能将组件进行划分</li>
+<li>组件可在Application与Library间转换</li>
+<li>组件生命周期，加载、卸载、降维</li>
+<li>组件间代码隔离</li>
+</ul>
+<p><img src="http://7xl2ut.com1.z0.glb.clouddn.com/18-7-7/12641897.jpg" alt=""></p>
+<h4 id="组件通信"><a href="#组件通信" class="headerlink" title="组件通信"></a>组件通信</h4><ul>
+<li>路由通信，处理各组件间页面跳转。</li>
+<li>事件通信，处理各组件间动作传递。</li>
+<li>数据通信，处理各组件间数据传递。</li>
+</ul>
+<p><img src="http://7xl2ut.com1.z0.glb.clouddn.com/18-7-7/3133828.jpg" alt=""></p>
+<h4 id="业务重构"><a href="#业务重构" class="headerlink" title="业务重构"></a>业务重构</h4><p>各业务组件可按需选择合适的架构设计。</p>
+<p><img src="http://7xl2ut.com1.z0.glb.clouddn.com/18-7-7/51566907.jpg" alt=""></p>
+<h3 id="改造难点"><a href="#改造难点" class="headerlink" title="改造难点"></a>改造难点</h3><h3 id="业内成熟方案"><a href="#业内成熟方案" class="headerlink" title="业内成熟方案"></a>业内成熟方案</h3><ol>
+<li><a href="https://github.com/luckybilly/CC" target="_blank" rel="noopener">CC</a></li>
+<li><a href="https://github.com/mqzhangw/JIMU" target="_blank" rel="noopener">JIMU</a></li>
+</ol>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ol>
+<li><a href="https://www.jianshu.com/p/1b1d77f58e84" target="_blank" rel="noopener">Android彻底组件化方案实践</a></li>
+<li><a href="http://blog.spinytech.com/2016/12/28/android_modularization/" target="_blank" rel="noopener">Android架构思考(模块化、多进程)</a></li>
+<li><a href="https://juejin.im/post/5a4b4425518825128654eef4" target="_blank" rel="noopener">聚美组件化实践之路</a></li>
+</ol>
+</div></article></div></main><footer><div class="paginator"><a href="/2018/05/12/kansai-travels/" class="next">NEXT</a></div><div data-thread-key="2018/07/05/app-component/" data-title="加油宝APP组件化改造流程" data-url="http://www.chenlongfei.cn/2018/07/05/app-component/" data-author-key="1" class="ds-thread"></div><script>var duoshuoQuery = {short_name:"chenlongfei"};
+(function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+})();
+
+</script><div class="copyright"><p>© 2015 - 2018 <a href="http://www.chenlongfei.cn">Troy</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-66384101-1",'auto');ga('send','pageview');</script></body></html>
