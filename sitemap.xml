@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://www.chenlongfei.cn/about/index.html</loc>
+    
+    <lastmod>2018-09-22T03:03:22.605Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://www.chenlongfei.cn/2018/07/05/app-component/</loc>
     
     <lastmod>2018-09-06T09:05:41.903Z</lastmod>
@@ -33,13 +40,6 @@
     <loc>http://www.chenlongfei.cn/2017/04/11/android-aosp/</loc>
     
     <lastmod>2017-04-11T12:52:46.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.chenlongfei.cn/about/index.html</loc>
-    
-    <lastmod>2017-03-22T06:14:19.000Z</lastmod>
     
   </url>
   
