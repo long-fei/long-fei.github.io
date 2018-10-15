@@ -14,15 +14,15 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/data/local/tcpdump -p -s 0 -w /sdcard/test.pcap</span><br></pre></td></tr></table></figure>
 <p>6.使用control+z 停止抓包<br>7.从设备中获取抓包文件</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb pull /sdcard/test.pcap /Users/chenlongfei/Downloads</span><br></pre></td></tr></table></figure>
-<p><img src="http://7xl2ut.com1.z0.glb.clouddn.com/b5decc10ed099c63f919260cd1fac1cb.png" alt=""></p>
+<p><img src="http://pic.luochenxun.com/b5decc10ed099c63f919260cd1fac1cb.png" alt=""></p>
 <p>至此抓包就结束了，PC上使用Wireshark对文件进行分析。</p>
 <h3 id="iOS平台"><a href="#iOS平台" class="headerlink" title="iOS平台:"></a>iOS平台:</h3><p><strong>设备已经越狱</strong><br>1.在Cydia中安装OpenSSH、tcpdump<br>2.查看设备IP<br>3.连接到设备</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ssh root@192.168.1.103</span><br><span class="line">password:alpine(默认密码)</span><br></pre></td></tr></table></figure>
 <p>4.开始抓包       </p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tcpdump -p -s 0 -w /test.pcap</span><br></pre></td></tr></table></figure>
 <p>5.使用pp助手导出pcap文件即可</p>
-<p><img src="http://7xl2ut.com1.z0.glb.clouddn.com/737b885c459913febca047a66ad39bfe.png" alt=""></p>
-<p><img src="http://7xl2ut.com1.z0.glb.clouddn.com/e425db4105541e14a9c86252ac0d2028.png" alt=""></p>
+<p><img src="http://pic.luochenxun.com/737b885c459913febca047a66ad39bfe.png" alt=""></p>
+<p><img src="http://pic.luochenxun.com/e425db4105541e14a9c86252ac0d2028.png" alt=""></p>
 <hr>
 <p>教程结束</p>
 </div></article></div></main><footer><div class="paginator"><a href="/2016/07/04/react-native-dev-env/" class="prev">PREV</a><a href="/2015/08/07/preference-activity-toolbar-usage/" class="next">NEXT</a></div><div data-thread-key="2015/08/15/wireshark-ios-android/" data-title="移动设备抓包利器之Tcpdump" data-url="http://www.chenlongfei.cn/2015/08/15/wireshark-ios-android/" data-author-key="1" class="ds-thread"></div><script>var duoshuoQuery = {short_name:"chenlongfei"};

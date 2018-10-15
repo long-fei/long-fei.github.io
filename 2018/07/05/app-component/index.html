@@ -16,28 +16,28 @@
 <li>中间层Module，是功能完整的独立业务组件，组件之间不可以相互依赖。</li>
 <li>底层基础库Library，提供基础功能，被业务组件依赖。</li>
 </ul>
-<p><img src="http://7xl2ut.com1.z0.glb.clouddn.com/18-7-7/89085392.jpg" alt=""></p>
+<p><img src="http://pic.luochenxun.com/18-7-7/89085392.jpg" alt=""></p>
 <h3 id="组件化改造大流程"><a href="#组件化改造大流程" class="headerlink" title="组件化改造大流程"></a>组件化改造大流程</h3><p>本次改造总共分为五个阶段，由简入繁，采用渐近式改造项目。</p>
-<p><img src="http://7xl2ut.com1.z0.glb.clouddn.com/18-7-7/948670.jpg" alt=""></p>
+<p><img src="http://pic.luochenxun.com/18-7-7/948670.jpg" alt=""></p>
 <h4 id="基础资源"><a href="#基础资源" class="headerlink" title="基础资源"></a>基础资源</h4><p>将基础通用资源拆分出来，独立为一个BaseRes Module。方便被业务组件引用。</p>
-<p><img src="http://7xl2ut.com1.z0.glb.clouddn.com/18-7-7/27560011.jpg" alt=""></p>
+<p><img src="http://pic.luochenxun.com/18-7-7/27560011.jpg" alt=""></p>
 <h4 id="基础库"><a href="#基础库" class="headerlink" title="基础库"></a>基础库</h4><p>将基础功能从项目中拆分出来，独立为一个BaseLib Module。方便被业务组件依赖。</p>
-<p><img src="http://7xl2ut.com1.z0.glb.clouddn.com/18-7-7/77665250.jpg" alt=""></p>
+<p><img src="http://pic.luochenxun.com/18-7-7/77665250.jpg" alt=""></p>
 <h4 id="组件拆分"><a href="#组件拆分" class="headerlink" title="组件拆分"></a>组件拆分</h4><ul>
 <li>按业务功能将组件进行划分</li>
 <li>组件可在Application与Library间切换</li>
 <li>组件生命周期，加载、卸载、降维</li>
 <li>组件间代码隔离</li>
 </ul>
-<p><img src="http://7xl2ut.com1.z0.glb.clouddn.com/18-7-7/12641897.jpg" alt=""></p>
+<p><img src="http://pic.luochenxun.com/18-7-7/12641897.jpg" alt=""></p>
 <h4 id="组件通信"><a href="#组件通信" class="headerlink" title="组件通信"></a>组件通信</h4><ul>
 <li>路由通信，处理各组件间页面跳转。</li>
 <li>事件通信，处理各组件间动作传递。</li>
 <li>数据通信，处理各组件间数据传递。</li>
 </ul>
-<p><img src="http://7xl2ut.com1.z0.glb.clouddn.com/18-7-7/3133828.jpg" alt=""></p>
+<p><img src="http://pic.luochenxun.com/18-7-7/3133828.jpg" alt=""></p>
 <h4 id="业务重构"><a href="#业务重构" class="headerlink" title="业务重构"></a>业务重构</h4><p>各业务组件可按需选择合适的架构设计。</p>
-<p><img src="http://7xl2ut.com1.z0.glb.clouddn.com/18-7-7/51566907.jpg" alt=""></p>
+<p><img src="http://pic.luochenxun.com/18-7-7/51566907.jpg" alt=""></p>
 <h3 id="改造难点"><a href="#改造难点" class="headerlink" title="改造难点"></a>改造难点</h3><ul>
 <li>需要熟悉原有代码逻辑，并深入理解业务，划分代码边界。</li>
 <li>组件化改造可能影响迭代进度。</li>
